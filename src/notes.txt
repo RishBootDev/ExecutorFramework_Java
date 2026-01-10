@@ -1,0 +1,31 @@
+java provides its own multithreading framework called the Java Executor Framework
+which is introduced in Jdk 5 in java.util.concurrent package.
+
+The Executor framework in Java provides a high level abstraction for managing
+concurrent tasks in Java application. It simplifies multi threading by
+handling tasks such as thread creation, management and scheduling. One of its key
+features is the thread pool, which reuses existing threads instead of creating new
+ones, improving efficiency and resource management
+
+Executor
+=========
+This interface is the core of the framework and it provides the execute method
+(Runnable) which takes the tasks and then submits them to the thread pool for
+execution
+
+execute(Runnable object) -> this function scedules the execution of a given command\
+to occur sometime in the future. The command might run in a new thread , a pooled thread
+or the calling thread depending on how the executor is implemented.
+
+executor.execute(threadObject)
+
+ThreadPoolExecutor:- This is one of the most
+commonly used implementations of the
+ExecutorService interface. It manages a pool of
+worker threads and provides fine-grained control
+over thread management, allowing you to specify
+parameters like the core pool size, maximum pool
+size, and various queueing strategies.
+Java thread pool manages the pool of worker
+threads. It contains a queue that keeps tasks
+waiting to get executed.
