@@ -1,10 +1,11 @@
 package com.rishbootdev.multithreading.executor_framework;
 
-import lombok.Getter;
+
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +19,9 @@ public class LearnAsyncSchedulingApp {
         log.info("Please enter the command ");
         String cmd = sc.next();
         //test2(cmd);
-        test3(cmd);
+        //test3(cmd);
+
+        test4(cmd);
     }
 
     public static void test2(String cmd) {
@@ -38,8 +41,40 @@ public class LearnAsyncSchedulingApp {
     public static void test3(String cmd) {
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-                6,10,2, TimeUnit.SECONDS,
+                6,200,2, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(10)
+        );
+
+        log.info("Starting the main thread -> {}",Thread.currentThread().getName());
+
+        for (int i = 0; i < 100; i++) {
+            threadPoolExecutor.submit(new LongRunningTask(cmd));
+        }
+
+        threadPoolExecutor.submit(new LongRunningTask(cmd));
+        log.info("Ending the main thread -> {}", Thread.currentThread().getName());
+
+    }
+
+
+    public static void test4(String cmd) {
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                6,200,2, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(10),
+          new RejectedExecutionHandler() {
+            @Override
+            public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+                log.error("The thread got rejected .... retrying");
+
+                try {
+                    Thread.sleep(2000);
+                } catch (Exception ex) {
+                    log.error("Multithreading exception");
+                }
+                executor.submit(r);
+            }
+        }
         );
 
         log.info("Starting the main thread -> {}",Thread.currentThread().getName());
@@ -66,7 +101,7 @@ public class LearnAsyncSchedulingApp {
                 try{
                     Thread.sleep(4000);
                 }catch (InterruptedException ex) {
-                    log.error("Multithreading error");
+                    log.error("Multithreading exception");
                 }
 
                 log.info("Ending the task");
