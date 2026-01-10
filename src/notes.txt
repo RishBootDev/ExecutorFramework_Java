@@ -29,3 +29,16 @@ size, and various queueing strategies.
 Java thread pool manages the pool of worker
 threads. It contains a queue that keeps tasks
 waiting to get executed.
+
+ScheduledExecutorService:
+=========================
+This extends the
+Executor framework to support scheduling tasks to
+run at specific times or with fixed time
+intervals. It's particularly useful for
+implementing tasks that need to be executed
+periodically, such as cleanup tasks or periodic
+data updates.
+
+majorly all the multithreading related work is done using this
+Class while using frameworks like SpringBoot, Hibernate, etc
