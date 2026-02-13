@@ -4,10 +4,7 @@ package com.rishbootdev.multithreading.executor_framework;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Scanner;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Slf4j
 public class LearnAsyncSchedulingApp {
@@ -87,7 +84,6 @@ public class LearnAsyncSchedulingApp {
         log.info("Ending the main thread -> {}", Thread.currentThread().getName());
 
     }
-
 
     public static void test1() {
 
